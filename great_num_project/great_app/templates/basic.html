@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greater Number Game</title>
+</head>
+<body>
+    <div id="container">
+        <form action="/validate" method="post">
+            {% csrf_token %}
+            <h2>Welcome to the game</h2>
+            <h3>Guess a number between 1 and 100 please</h3>
+            
+                {% if((request.session.status == "Too Low") or (request.session.status == "Too High")) : %}
+                     <div>{{request.session.status}}</div>
+                {% endif %}
+            <!-- {{%endif%}} -->
+            {%if ('status' in request.session) and (request.session.status == "Success"):%}
+                <input type="text" name="num" placeholder="Guess Number" >
+                <br>
+                <input type="submit" value="Take A Guess" >
+            {% else %}
+            <div>
+                {{request.session.status + " "+ request.session.num}}
+                <input type="submit" value="Play again" >
+            </div>
+            {% endif %}
+        </form>
+    </div>
+    {{request.session.random_num}}
+</body>
+</html>
